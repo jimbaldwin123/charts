@@ -11,6 +11,8 @@ use GuzzleHttp\Client;
 /**
  * TODO -
  * non-contiguous dates on same line.
+ * try-catch dd() for failed date parsing
+ * Year-only dates
  * organize methods into proper classes
  * render to zoomable SVG
  * keywords
@@ -40,13 +42,19 @@ class TimelineController extends Controller
     {
         $names = [
 
+//            'George Bernard Shaw',
+//            'Michel de Montaigne',
+//            'Bertrand Russell',
+//            'Marcel Duchamp',
+            'John Cage',
 //            'George Washington',
 //            'Isaac Newton',
-            'Abraham Lincoln',
-            'James Baldwin',
-            'Albert Einstein',
-            'Søren Kierkegaard',
-            'Maimonides',
+//            'Friedrich Nietzsche',
+//            'Abraham Lincoln',
+//            'James Baldwin',
+//            'Albert Einstein',
+//            'Søren Kierkegaard',
+//            'Maimonides',
 
 //            //'John Locke',
 //            'David Hume',
@@ -83,7 +91,6 @@ class TimelineController extends Controller
         $data = json_decode($response->getBody('true'),true);
         $d2 = Utility::array_search_key('*',$data);
         $body = $d2['*'];
-
         $data_line = Utility::get_data_line([$title,$body]);
         return $data_line;
     }
