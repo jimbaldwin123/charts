@@ -1,5 +1,6 @@
 <html>
 <head>
+    <title>Timeline</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {'packages':['timeline']});
@@ -15,9 +16,10 @@
             dataTable.addColumn({ type: 'date', id: 'End' });
 
             dataTable.addRows([
-                [ '1', 'George Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
-                [ '2', 'John Adams',        new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
-                [ '3', 'Thomas Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ]]);
+                @foreach($events as $index=>$event)
+                [ '{{$index}}', '{{$event['name']}}', new Date( {{ $event['start'][0]}}, {{$event['start'][1]}}, {{$event['start'][2]}}), new Date( {{$event['end'][0]}} , {{$event['end'][1]}},{{$event['end'][2]}}) ],
+                @endforeach
+            ]);
 
             var options = {
                 timeline: { showRowLabels: false }
@@ -28,6 +30,6 @@
     </script>
 </head>
 <body>
-<div id="timeline" style="height: 180px;"></div>
+<div id="timeline" style="height: 1800px;"></div>
 </body>
 </html>

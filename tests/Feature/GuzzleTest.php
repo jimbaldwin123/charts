@@ -19,10 +19,10 @@ class GuzzleTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testGetWikipediaData()
+    public function testFillData()
     {
         $timeline_controller = new TimelineController();
-        $timeline_controller->getWikipediaData();
+        $timeline_controller->fillData();
         $this->assertTrue(true);
     }
 }

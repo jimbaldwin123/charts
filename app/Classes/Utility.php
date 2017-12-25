@@ -11,19 +11,26 @@ namespace App\Classes;
 
 class Utility
 {
-    public static function get_data_line($body)
+    public static function get_data_line($data)
     {
-        $body = explode("\n",$body);
+        $title = $data[0];
+        $body = explode("\n",$data[1]);
+
         foreach($body as $line){
-            if(strpos($line,'name')!== false) {
-                $names = explode('=', $line);
-                $name = trim($names[1]);
-            }
+
             if(strpos($line,'death_date')!== false){
                 $dates = explode('|',$line);
-                $death_date = $dates['2'] . '-' . self::pad($dates['3']) . '-' . self::pad($dates['4']);
-                $birth_date = $dates['5'] . '-' . self::pad($dates['6']) . '-' . self::pad($dates['7']);
-                return [$name,$birth_date,$death_date];
+
+                $index = 0;
+                foreach($dates as $date){
+                    if(is_numeric($date)){
+                       break;
+                    }
+                    $index++;
+                }
+                $death_date = $dates[$index++] . '-' . self::pad($dates[$index++]) . '-' . self::pad($dates[$index++]);
+                $birth_date = $dates[$index++] . '-' . self::pad($dates[$index++]) . '-' . self::pad($dates[$index++]);
+                return [$title,$birth_date,$death_date];
             }
         }
     }
