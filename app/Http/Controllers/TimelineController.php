@@ -8,6 +8,17 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
+/**
+ * TODO -
+ * non-contiguous dates on same line.
+ * better parsing of dates
+ * render to zoomable SVG
+ * keywords
+ * comparison via drag/drop boxes, checkboxes, typeahead
+ * Class TimelineController
+ * @package App\Http\Controllers
+ */
+
 class TimelineController extends Controller
 {
     private $api_client;
