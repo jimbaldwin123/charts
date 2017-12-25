@@ -21,12 +21,21 @@ class Event extends Model
         $event->save();
     }
 
+    public static function updateEventError($data)
+    {
+        $event = Event::firstOrNew([
+            'name'=>$data[0]
+        ]);
+        $event->parse_result = $data[1];
+        $event->save();
+    }
+
     public static function prepareData()
     {
         $events = Event::orderBy('start')->get();
         foreach($events as $event){
-            $start = self::parseDate($event->start);
-            $end = self::parseDate($event->end);
+            $start = explode('-',$event->start);
+            $end = explode('-',$event->end);
             $parsed_event[] = [
                 'name' => $event->name,
                 'start' => $start,
@@ -34,10 +43,5 @@ class Event extends Model
             ];
         }
         return $parsed_event;
-    }
-
-    public static function parseDate($date)
-    {
-        return explode('-',$date);
     }
 }

@@ -39,15 +39,32 @@ class TimelineController extends Controller
     public function fillData()
     {
         $names = [
-//            //'Isaac Newton',
+
+            // 'George Washington',
+            'Isaac Newton',
 //            //'John Locke',
 //            'David Hume',
 //            'Anton Lavoisier',
+        /**
+         * Mendelssohn, Moses
+         * boethius
+         * cicero
+         * moses maimonides
+         * avicenna
+         * averroes
+         *
+         */
         ];
         foreach($names as $name){
             print $name . "\n";
             $data = $this->getWikipediaData($name);
-            Event::updateEvent($data);
+
+            if(isset($data['error'])){
+                Event::updateEventError($data);
+            } else{
+                Event::updateEvent($data);
+            }
+
         }
     }
 
@@ -61,6 +78,7 @@ class TimelineController extends Controller
         $d2 = Utility::array_search_key('*',$data);
         $body = $d2['*'];
         $data_line = Utility::get_data_line([$title,$body]);
+        print_r($data_line);
         return $data_line;
     }
 
