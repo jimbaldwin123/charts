@@ -15,16 +15,15 @@ class Utility
     {
         $title = $data[0];
         $body = explode("\n",$data[1]);
-print_r($body);
         foreach($body as $line){
 
             if(strpos(strtolower($line),'| birth_date')!== false) {
-                $dates = explode('|',$line);
+                $dates = self::parseDate($line,'birth date');
                 $index = self::findFirstNumeric($dates);
                 $birth_date = $dates[$index++] . '-' . self::pad($dates[$index++]) . '-' . self::pad($dates[$index++]);
             }
             if(strpos(strtolower($line),'| death_date')!== false) {
-                $dates = explode('|',$line);
+                $dates = self::parseDate($line,'death date');
                 $index = self::findFirstNumeric($dates);
                 $death_date = $dates[$index++] . '-' . self::pad($dates[$index++]) . '-' . self::pad($dates[$index++]);
             }
@@ -71,5 +70,14 @@ print_r($body);
             }
             $index++;
         }
+    }
+
+    public static function parseDate($line,$key){
+        if (preg_match('/\{\{'. $key . '(.*?)\}\}/i', $line, $display) === 1) {
+            $dates = explode('|',$display[1]);
+        } else {
+            $dates = explode('|',$line);
+        }
+        return $dates;
     }
 }

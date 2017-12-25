@@ -11,7 +11,7 @@ use GuzzleHttp\Client;
 /**
  * TODO -
  * non-contiguous dates on same line.
- * better parsing of dates
+ * organize methods into proper classes
  * render to zoomable SVG
  * keywords
  * comparison via drag/drop boxes, checkboxes, typeahead
@@ -40,8 +40,14 @@ class TimelineController extends Controller
     {
         $names = [
 
-            // 'George Washington',
-            'Isaac Newton',
+//            'George Washington',
+//            'Isaac Newton',
+            'Abraham Lincoln',
+            'James Baldwin',
+            'Albert Einstein',
+            'Søren Kierkegaard',
+            'Maimonides',
+
 //            //'John Locke',
 //            'David Hume',
 //            'Anton Lavoisier',
@@ -56,7 +62,7 @@ class TimelineController extends Controller
          */
         ];
         foreach($names as $name){
-            print $name . "\n";
+            // print $name . "\n";
             $data = $this->getWikipediaData($name);
 
             if(isset($data['error'])){
@@ -72,13 +78,13 @@ class TimelineController extends Controller
     {
         $utitle = urlencode($title);
         $url = 'https://en.wikipedia.org/w/api.php?action=query&titles='. $utitle . '&prop=revisions&rvprop=content&format=json';
-        print $url . "\n";
+        // print $url . "\n";
         $response = $this->api_client->request('GET', $url);
         $data = json_decode($response->getBody('true'),true);
         $d2 = Utility::array_search_key('*',$data);
         $body = $d2['*'];
+
         $data_line = Utility::get_data_line([$title,$body]);
-        print_r($data_line);
         return $data_line;
     }
 
