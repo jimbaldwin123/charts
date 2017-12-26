@@ -46,8 +46,9 @@ class TimelineController extends Controller
 //            'Michel de Montaigne',
 //            'Bertrand Russell',
 //            'Marcel Duchamp',
-            'John Cage',
-//            'George Washington',
+            //'John Cage',
+
+            'James Brown',
 //            'Isaac Newton',
 //            'Friedrich Nietzsche',
 //            'Abraham Lincoln',
@@ -91,6 +92,7 @@ class TimelineController extends Controller
         $data = json_decode($response->getBody('true'),true);
         $d2 = Utility::array_search_key('*',$data);
         $body = $d2['*'];
+//        dd($body);
         $data_line = Utility::get_data_line([$title,$body]);
         return $data_line;
     }

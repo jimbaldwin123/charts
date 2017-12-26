@@ -17,15 +17,15 @@ class Utility
         $body = explode("\n",$data[1]);
         foreach($body as $line){
 
-            if(strpos(strtolower($line),'| birth_date')!== false) {
+            if(strpos(strtolower($line),'| birth_date')!== false || strpos(strtolower($line),'|birth_date') !== false) {
                 $dates = self::parseDate($line,'birth date');
                 $index = self::findFirstNumeric($dates);
-                $birth_date = $dates[$index++] . '-' . self::pad($dates[$index++]) . '-' . self::pad($dates[$index++]);
+                $birth_date = $dates[$index++] . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1)) . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1));
             }
-            if(strpos(strtolower($line),'| death_date')!== false) {
+            if(strpos(strtolower($line),'| death_date')!== false || strpos(strtolower($line),'|death_date')!== false) {
                 $dates = self::parseDate($line,'death date');
                 $index = self::findFirstNumeric($dates);
-                $death_date = $dates[$index++] . '-' . self::pad($dates[$index++]) . '-' . self::pad($dates[$index++]);
+                $death_date = $dates[$index++] . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1)) . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1));
             }
 
         }
@@ -41,6 +41,11 @@ class Utility
     {
         $date = trim(str_replace('}','',$date));
         return substr('0'.$date,-2);
+    }
+
+    public static function defaultDate($date)
+    {
+        return is_numeric($date) ? $date : 1;
     }
 
     /**

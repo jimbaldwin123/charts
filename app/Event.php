@@ -18,6 +18,7 @@ class Event extends Model
         ]);
         $event->start = $data[1];
         $event->end = $data[2];
+        $event->parse_result = '';
         $event->save();
     }
 
@@ -36,6 +37,7 @@ class Event extends Model
         foreach($events as $event){
             $start = explode('-',$event->start);
             $end = explode('-',$event->end);
+
             $parsed_event[] = [
                 'name' => $event->name,
                 'start' => $start,
