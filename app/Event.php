@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name','start','end'];
+    protected $fillable = ['name','start','end','created_at','updated_at','deleted_at'];
 
     public static function updateEvent($data)
     {
