@@ -7,7 +7,8 @@
  */
 
 namespace App\Classes;
-
+use \Exception;
+use App\Event;
 
 class Utility
 {
@@ -20,12 +21,40 @@ class Utility
             if(strpos(strtolower($line),'| birth_date')!== false || strpos(strtolower($line),'|birth_date') !== false) {
                 $dates = self::parseDate($line,'birth date');
                 $index = self::findFirstNumeric($dates);
-                $birth_date = $dates[$index++] . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1)) . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1));
+                try {
+                    if(!isset($dates[$index])){
+                        throw new Exception();
+                    }
+                    $year = $dates[$index++];
+                    $month = $dates[$index++];
+                    $day = $dates[$index++];
+                    \Log::debug('Y-m-d',[$year,$month,$day]);
+                    $birth_date = $year . '-' . self::defaultDate(self::pad($month ?? 1)) . '-' . self::defaultDate(self::pad($day ?? 1));
+                    \Log::debug('BIRTH DATE ', [$birth_date]);
+                }
+                catch (exception $e) {
+                    unset($birth_date);
+                    Event::updateEventError($data);
+                }
             }
             if(strpos(strtolower($line),'| death_date')!== false || strpos(strtolower($line),'|death_date')!== false) {
                 $dates = self::parseDate($line,'death date');
                 $index = self::findFirstNumeric($dates);
-                $death_date = $dates[$index++] . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1)) . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1));
+                try {
+                    if(!isset($dates[$index])){
+                        throw new Exception();
+                    }
+                    $year = $dates[$index++];
+                    $month = $dates[$index++];
+                    $day = $dates[$index++];
+                    \Log::debug('Y-m-d',[$year,$month,$day]);
+                    $death_date = $year . '-' . self::defaultDate(self::pad($month ?? 1)) . '-' . self::defaultDate(self::pad($day ?? 1));
+                    \Log::debug('DEATH DATE ', [$death_date]);
+                }
+                catch (exception $e) {
+                    unset($death_date);
+                    Event::updateEventError($data);
+                }
             }
 
         }

@@ -18,7 +18,7 @@ class Event extends Model
         ]);
         $event->start = $data[1];
         $event->end = $data[2];
-        $event->parse_result = '';
+        // $event->parse_result = '';
         $event->save();
     }
 
@@ -27,7 +27,9 @@ class Event extends Model
         $event = Event::firstOrNew([
             'name'=>$data[0]
         ]);
-        $event->parse_result = $data[1];
+//        $event->start = '0000-00-00';
+//        $event->end = '0000-00-00';
+        $event->parse_result = substr($data[1],0,2000);
         $event->save();
     }
 

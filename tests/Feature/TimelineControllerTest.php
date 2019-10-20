@@ -24,4 +24,11 @@ class TimelineControllerTest extends TestCase
         $result = $controller->getWikipediaData();
         print_r($result);
     }
+
+    public function testFillData()
+    {
+        $controller = new TimelineController();
+        $result = $controller->fillData();
+        print_r($result);
+    }
 }

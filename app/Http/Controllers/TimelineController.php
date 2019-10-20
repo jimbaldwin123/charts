@@ -43,24 +43,23 @@ class TimelineController extends Controller
     {
         $names = [
 
-//            'George Bernard Shaw',
-//            'Michel de Montaigne',
-//            'Bertrand Russell',
-//            'Marcel Duchamp',
-            //'John Cage',
-
+            'George Bernard Shaw',
+            'Michel de Montaigne',
+            'Bertrand Russell',
+            'Marcel Duchamp',
+            'John Cage',
             'James Brown',
-//            'Isaac Newton',
-//            'Friedrich Nietzsche',
-//            'Abraham Lincoln',
-//            'James Baldwin',
-//            'Albert Einstein',
-//            'Søren Kierkegaard',
-//            'Maimonides',
+            'Isaac Newton',
+            'Friedrich Nietzsche',
+            'Abraham Lincoln',
+            'James Baldwin',
+            'Albert Einstein',
+            'Søren Kierkegaard',
+            'Maimonides',
 
-//            //'John Locke',
-//            'David Hume',
-//            'Anton Lavoisier',
+            'John Locke',
+            'David Hume',
+            'Anton Lavoisier',
         /**
          * Mendelssohn, Moses
          * boethius
@@ -74,9 +73,8 @@ class TimelineController extends Controller
          */
         ];
         foreach($names as $name){
-            // print $name . "\n";
+            \Log::debug('NAME: ', [$name]);
             $data = $this->getWikipediaData($name);
-
             if(isset($data['error'])){
                 Event::updateEventError($data);
             } else{
@@ -88,16 +86,12 @@ class TimelineController extends Controller
 
     public function getWikipediaData($title = 'George Washington')
     {
+        \Log::debug('TITLE', [$title]);
         $utitle = urlencode($title);
         $url = 'https://en.wikipedia.org/w/api.php?action=query&titles='. $utitle . '&rvslots=*&prop=revisions&rvprop=content&format=json';
-        // print $url . "\n";
         $response = $this->api_client->request('GET', $url);
-
         $data = json_decode($response->getBody('true'),true);
-
-        $d2 = Utility::array_search_key('*',$data);
-        dd($d2);
-        $body = $d2['*'];
+        $body = Utility::array_search_key('*',$data);
         $data_line = Utility::get_data_line([$title,$body]);
         return $data_line;
     }
