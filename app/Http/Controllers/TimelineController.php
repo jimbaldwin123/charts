@@ -10,13 +10,14 @@ use GuzzleHttp\Client;
 
 /**
  * TODO -
- * non-contiguous dates on same line.
+ * non-overlapping dates on same row.
  * try-catch dd() for failed date parsing
  * Year-only dates
  * organize methods into proper classes
- * render to zoomable SVG
+ * render to zoomable, and scrollable
  * keywords
  * comparison via drag/drop boxes, checkboxes, typeahead
+ * category tags such as politics, science, art, philosophy, religion, fictional
  * Class TimelineController
  * @package App\Http\Controllers
  */
@@ -67,6 +68,8 @@ class TimelineController extends Controller
          * moses maimonides
          * avicenna
          * averroes
+         * magellan
+         * columbus
          *
          */
         ];
@@ -86,13 +89,15 @@ class TimelineController extends Controller
     public function getWikipediaData($title = 'George Washington')
     {
         $utitle = urlencode($title);
-        $url = 'https://en.wikipedia.org/w/api.php?action=query&titles='. $utitle . '&prop=revisions&rvprop=content&format=json';
+        $url = 'https://en.wikipedia.org/w/api.php?action=query&titles='. $utitle . '&rvslots=*&prop=revisions&rvprop=content&format=json';
         // print $url . "\n";
         $response = $this->api_client->request('GET', $url);
+
         $data = json_decode($response->getBody('true'),true);
+
         $d2 = Utility::array_search_key('*',$data);
+        dd($d2);
         $body = $d2['*'];
-//        dd($body);
         $data_line = Utility::get_data_line([$title,$body]);
         return $data_line;
     }

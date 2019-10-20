@@ -57,7 +57,7 @@ class Utility
      */
     public static function array_search_key( $needle_key, $array ) {
         foreach($array AS $key=>$value){
-            if($key == $needle_key) return $value;
+            if((string)$key == $needle_key) return $value;
             if(is_array($value)){
                 if( ($result = self::array_search_key($needle_key,$value)) !== false)
                     return $result;
