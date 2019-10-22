@@ -18,7 +18,7 @@ class Event extends Model
         ]);
         $event->start = $data[1];
         $event->end = $data[2];
-        $event->parse_result = '';
+        // $event->parse_result = '';
         $event->save();
     }
 
@@ -27,13 +27,13 @@ class Event extends Model
         $event = Event::firstOrNew([
             'name'=>$data[0]
         ]);
-        $event->parse_result = $data[1];
+        $event->parse_result = substr($data[1],0,2000);
         $event->save();
     }
 
     public static function prepareData()
     {
-        $events = Event::orderBy('start')->get();
+        $events = Event::where('show',1)->orderBy('start')->get();
         foreach($events as $event){
             $start = explode('-',$event->start);
             $end = explode('-',$event->end);

@@ -10,13 +10,14 @@ use GuzzleHttp\Client;
 
 /**
  * TODO -
- * non-contiguous dates on same line.
+ * non-overlapping dates on same row.
  * try-catch dd() for failed date parsing
  * Year-only dates
  * organize methods into proper classes
- * render to zoomable SVG
+ * render to zoomable, and scrollable
  * keywords
  * comparison via drag/drop boxes, checkboxes, typeahead
+ * category tags such as politics, science, art, philosophy, religion, fictional
  * Class TimelineController
  * @package App\Http\Controllers
  */
@@ -41,14 +42,16 @@ class TimelineController extends Controller
     public function fillData()
     {
         $names = [
-
+            'Ludwig Wittgenstein',
+            'Charlie Parker',
+            'Dizzy Gillespie',
+//
 //            'George Bernard Shaw',
 //            'Michel de Montaigne',
 //            'Bertrand Russell',
 //            'Marcel Duchamp',
-            //'John Cage',
-
-            'James Brown',
+//            'John Cage',
+//            'James Brown',
 //            'Isaac Newton',
 //            'Friedrich Nietzsche',
 //            'Abraham Lincoln',
@@ -56,8 +59,8 @@ class TimelineController extends Controller
 //            'Albert Einstein',
 //            'Søren Kierkegaard',
 //            'Maimonides',
-
-//            //'John Locke',
+//
+//            'John Locke',
 //            'David Hume',
 //            'Anton Lavoisier',
         /**
@@ -67,13 +70,14 @@ class TimelineController extends Controller
          * moses maimonides
          * avicenna
          * averroes
+         * magellan
+         * columbus
          *
          */
         ];
         foreach($names as $name){
-            // print $name . "\n";
+            \Log::debug('NAME: ', [$name]);
             $data = $this->getWikipediaData($name);
-
             if(isset($data['error'])){
                 Event::updateEventError($data);
             } else{
@@ -85,14 +89,12 @@ class TimelineController extends Controller
 
     public function getWikipediaData($title = 'George Washington')
     {
+        \Log::debug('TITLE', [$title]);
         $utitle = urlencode($title);
-        $url = 'https://en.wikipedia.org/w/api.php?action=query&titles='. $utitle . '&prop=revisions&rvprop=content&format=json';
-        // print $url . "\n";
+        $url = 'https://en.wikipedia.org/w/api.php?action=query&titles='. $utitle . '&rvslots=*&prop=revisions&rvprop=content&format=json';
         $response = $this->api_client->request('GET', $url);
         $data = json_decode($response->getBody('true'),true);
-        $d2 = Utility::array_search_key('*',$data);
-        $body = $d2['*'];
-//        dd($body);
+        $body = Utility::array_search_key('*',$data);
         $data_line = Utility::get_data_line([$title,$body]);
         return $data_line;
     }

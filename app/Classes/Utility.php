@@ -7,7 +7,8 @@
  */
 
 namespace App\Classes;
-
+use \Exception;
+use App\Event;
 
 class Utility
 {
@@ -15,27 +16,58 @@ class Utility
     {
         $title = $data[0];
         $body = explode("\n",$data[1]);
+        $error_message = '';
         foreach($body as $line){
 
             if(strpos(strtolower($line),'| birth_date')!== false || strpos(strtolower($line),'|birth_date') !== false) {
                 $dates = self::parseDate($line,'birth date');
                 $index = self::findFirstNumeric($dates);
-                $birth_date = $dates[$index++] . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1)) . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1));
+                try {
+                    if(!isset($dates[$index])){
+                        throw new Exception();
+                    }
+                    $year = $dates[$index++];
+                    $month = $dates[$index++];
+                    $day = $dates[$index++];
+                    \Log::debug('Y-m-d',[$year,$month,$day]);
+                    $birth_date = $year . '-' . self::defaultDate(self::pad($month ?? 1)) . '-' . self::defaultDate(self::pad($day ?? 1));
+                    \Log::debug('BIRTH DATE ', [$birth_date]);
+                }
+                catch (exception $e) {
+                    $error_message .= ' ' . $line;
+                    unset($birth_date);
+                }
             }
             if(strpos(strtolower($line),'| death_date')!== false || strpos(strtolower($line),'|death_date')!== false) {
                 $dates = self::parseDate($line,'death date');
                 $index = self::findFirstNumeric($dates);
-                $death_date = $dates[$index++] . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1)) . '-' . self::defaultDate(self::pad($dates[$index++] ?? 1));
+                try {
+                    if(!isset($dates[$index])){
+                        throw new Exception();
+                    }
+                    $year = $dates[$index++];
+                    $month = $dates[$index++];
+                    $day = $dates[$index++];
+                    \Log::debug('Y-m-d',[$year,$month,$day]);
+                    $death_date = $year . '-' . self::defaultDate(self::pad($month ?? 1)) . '-' . self::defaultDate(self::pad($day ?? 1));
+                    \Log::debug('DEATH DATE ', [$death_date]);
+                }
+                catch (exception $e) {
+                    $error_message .= ' ' . $line;
+                    unset($death_date);
+                }
             }
 
         }
         if(isset($birth_date) && isset($death_date)){
             return [$title,$birth_date,$death_date];
         } else {
-            return [$title, 'Formatted Date not found.','error'=>true];
+            return [$title, $error_message,'error'=>true];
         }
-
     }
+
+
+
 
     public static function pad($date)
     {
@@ -57,7 +89,7 @@ class Utility
      */
     public static function array_search_key( $needle_key, $array ) {
         foreach($array AS $key=>$value){
-            if($key == $needle_key) return $value;
+            if((string)$key == $needle_key) return $value;
             if(is_array($value)){
                 if( ($result = self::array_search_key($needle_key,$value)) !== false)
                     return $result;
