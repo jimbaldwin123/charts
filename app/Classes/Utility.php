@@ -16,6 +16,7 @@ class Utility
     {
         $title = $data[0];
         $body = explode("\n",$data[1]);
+        $error_message = '';
         foreach($body as $line){
 
             if(strpos(strtolower($line),'| birth_date')!== false || strpos(strtolower($line),'|birth_date') !== false) {
@@ -33,8 +34,8 @@ class Utility
                     \Log::debug('BIRTH DATE ', [$birth_date]);
                 }
                 catch (exception $e) {
+                    $error_message .= ' ' . $line;
                     unset($birth_date);
-                    Event::updateEventError($data);
                 }
             }
             if(strpos(strtolower($line),'| death_date')!== false || strpos(strtolower($line),'|death_date')!== false) {
@@ -52,8 +53,8 @@ class Utility
                     \Log::debug('DEATH DATE ', [$death_date]);
                 }
                 catch (exception $e) {
+                    $error_message .= ' ' . $line;
                     unset($death_date);
-                    Event::updateEventError($data);
                 }
             }
 
@@ -61,10 +62,12 @@ class Utility
         if(isset($birth_date) && isset($death_date)){
             return [$title,$birth_date,$death_date];
         } else {
-            return [$title, 'Formatted Date not found.','error'=>true];
+            return [$title, $error_message,'error'=>true];
         }
-
     }
+
+
+
 
     public static function pad($date)
     {

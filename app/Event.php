@@ -27,15 +27,13 @@ class Event extends Model
         $event = Event::firstOrNew([
             'name'=>$data[0]
         ]);
-//        $event->start = '0000-00-00';
-//        $event->end = '0000-00-00';
         $event->parse_result = substr($data[1],0,2000);
         $event->save();
     }
 
     public static function prepareData()
     {
-        $events = Event::orderBy('start')->get();
+        $events = Event::where('show',1)->orderBy('start')->get();
         foreach($events as $event){
             $start = explode('-',$event->start);
             $end = explode('-',$event->end);

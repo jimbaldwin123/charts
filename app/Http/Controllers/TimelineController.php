@@ -42,24 +42,27 @@ class TimelineController extends Controller
     public function fillData()
     {
         $names = [
-
-            'George Bernard Shaw',
-            'Michel de Montaigne',
-            'Bertrand Russell',
-            'Marcel Duchamp',
-            'John Cage',
-            'James Brown',
-            'Isaac Newton',
-            'Friedrich Nietzsche',
-            'Abraham Lincoln',
-            'James Baldwin',
-            'Albert Einstein',
-            'Søren Kierkegaard',
-            'Maimonides',
-
-            'John Locke',
-            'David Hume',
-            'Anton Lavoisier',
+            'Ludwig Wittgenstein',
+            'Charlie Parker',
+            'Dizzy Gillespie',
+//
+//            'George Bernard Shaw',
+//            'Michel de Montaigne',
+//            'Bertrand Russell',
+//            'Marcel Duchamp',
+//            'John Cage',
+//            'James Brown',
+//            'Isaac Newton',
+//            'Friedrich Nietzsche',
+//            'Abraham Lincoln',
+//            'James Baldwin',
+//            'Albert Einstein',
+//            'Søren Kierkegaard',
+//            'Maimonides',
+//
+//            'John Locke',
+//            'David Hume',
+//            'Anton Lavoisier',
         /**
          * Mendelssohn, Moses
          * boethius
