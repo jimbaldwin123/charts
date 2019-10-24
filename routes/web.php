@@ -12,5 +12,5 @@
 */
 
 Route::get('/', 'TimelineController@show');
-Route::get('deploy','ServerController@deploy');
+Route::post('deploy','ServerController@deploy');
 
