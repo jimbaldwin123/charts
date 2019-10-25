@@ -12,7 +12,8 @@ class ServerController extends Controller
         $response = ['deployed'];
         $response[] = shell_exec('cd ' . base_path());
         $response[] = shell_exec('git pull origin master');
-        $data = [];
+        $response[] = $_SERVER['REMOTE_ADDR'];
+        $data = ['response'=>implode('|',$response)];
         return view('deploy-response', $data);
     }
 
