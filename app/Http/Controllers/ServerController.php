@@ -8,7 +8,7 @@ class ServerController extends Controller
 {
     public function deploy()
     {
-        \Log::debug('DEPLOY ');
+        \Log::debug('DEPLOY ' . date('Y-m-d h:m:s'));
         $response = ['deployed'];
         $response[] = shell_exec('cd ' . base_path());
         $response[] = shell_exec('git pull origin master');
