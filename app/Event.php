@@ -42,8 +42,32 @@ class Event extends Model
                 'name' => $event->name,
                 'start' => $start,
                 'end' => $end,
+                'sstart'=> $event->start,
+                'send'=> $event->end,
             ];
         }
         return $parsed_event;
+    }
+
+    public function tileEvents($events)
+    {
+        $p = 0;
+        $i = 1;
+        $events_display = [];
+        $events_display_first_group_item = array_shift($events);
+        $events_display_first_group_item['index'] = $i;
+        $events_display[] = $events_display_first_group_item;
+        while ($p < count($events) && $p < 2){
+            if(strtotime($events_display_first_group_item['send']) <= strtotime($events[$p]['sstart'])){
+                $event_item = array_slice($events, $p, 1);
+                $event_item['index'] = $p=i;
+                $events_display[] = $event_item;
+            } else {
+                $p++;
+            }
+            print $p . "\t" . count($events) . "\n";
+        dd($events_display);
+        }
+        dd($events_display);
     }
 }
