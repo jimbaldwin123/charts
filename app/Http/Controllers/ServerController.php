@@ -13,7 +13,7 @@ class ServerController extends Controller
         $response[] = shell_exec('git pull origin master');
         $response[] = $_SERVER['REMOTE_ADDR'];
         $data = ['response'=>implode('|',$response)];
-        \Log::debug('DEPLOY ' . date('Y-m-d h:m:s',$data));
+        \Log::debug('DEPLOY ' . date('Y-m-d h:m:s'),$data);
         return view('deploy-response', $data);
     }
 
