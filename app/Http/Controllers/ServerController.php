@@ -12,6 +12,5 @@ class ServerController extends Controller
         $response = ['deployed'];
         // $response[] = shell_exec('cd ' . base_path());
         // $response[] = shell_exec('git pull origin master');
-        print_r($response);
     }
 }
