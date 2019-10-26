@@ -25,11 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            \Log::debug('fillData2');
-            $controller = new TimelineController;
-            $controller->fillData();
-        })->everyMinute();
+
     }
 
     /**
