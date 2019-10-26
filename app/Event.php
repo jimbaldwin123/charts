@@ -42,8 +42,50 @@ class Event extends Model
                 'name' => $event->name,
                 'start' => $start,
                 'end' => $end,
+                'sstart'=> $event->start,
+                'send'=> $event->end,
             ];
         }
         return $parsed_event;
+    }
+
+    /**
+     * iterate through events and tile non-overlapping events into
+     * the same row
+     * @param $events
+     * @return mixed
+     */
+    public static function tileEvents($events)
+    {
+        $i = 0;
+        while(self::arrayTagsComplete($events) !== true){
+            $i++;
+            $test_date = '0000-00-00';
+            foreach($events as $p=>$event){
+                if(!array_key_exists('index',$event)){
+                    if(strtotime($test_date) <= strtotime($event['sstart'])){
+                        $events[$p]['index'] = $i;
+                        $test_date = $event['send'];
+                    }
+                }
+            }
+        }
+        return $events;
+    }
+
+    /**
+     * check array to see if all elements have been
+     * assigned to an index
+     * @param $events
+     * @return bool
+     */
+    public static function arrayTagsComplete($events){
+        $complete = true;
+        foreach($events as $event){
+            if(!array_key_exists('index',$event)){
+                $complete = false;
+            }
+        }
+        return $complete;
     }
 }

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Utility;
-use App\Event;
+use App\Event as EventModel;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
 /**
  * TODO -
+ * IP restriction for github hook
  * non-overlapping dates on same row.
  * try-catch dd() for failed date parsing
  * Year-only dates
@@ -31,9 +32,10 @@ class TimelineController extends Controller
     }
     public function show()
     {
-        $events = Event::prepareData();
+        $events = EventModel::prepareData();
+        $result = EventModel::tileEvents($events);
         $data = [
-            'events'=>$events,
+            'events'=>$result,
         ];
         return view('timeline',$data);
     }
@@ -79,9 +81,9 @@ class TimelineController extends Controller
             \Log::debug('NAME: ', [$name]);
             $data = $this->getWikipediaData($name);
             if(isset($data['error'])){
-                Event::updateEventError($data);
+                EventModel::updateEventError($data);
             } else{
-                Event::updateEvent($data);
+                EventModel::updateEvent($data);
             }
 
         }
