@@ -18,13 +18,14 @@
             dataTable.addRows([
                 @foreach($events as $index=>$event)
                     @if(isset($event['start'][2]))
-                        [ '{{$index}}', '{{$event['name'] . ': ' . $event['start'][0] . ' - ' .  $event['end'][0]  }}', new Date( {{ $event['start'][0]}}, {{$event['start'][1]}}, {{$event['start'][2]}}), new Date( {{$event['end'][0]}} , {{$event['end'][1]}},{{$event['end'][2]}}) ],
+                        [ '{{ $event['index'] }}', '{{$event['name'] . ': ' . $event['start'][0] . ' - ' .  $event['end'][0]  }}', new Date( {{ $event['start'][0]}}, {{$event['start'][1]}}, {{$event['start'][2]}}), new Date( {{$event['end'][0]}} , {{$event['end'][1]}},{{$event['end'][2]}}) ],
                     @endif
                 @endforeach
             ]);
 
             var options = {
                 timeline: { showRowLabels: false }
+
             };
 
             chart.draw(dataTable, options);

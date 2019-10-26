@@ -49,25 +49,43 @@ class Event extends Model
         return $parsed_event;
     }
 
-    public function tileEvents($events)
+    public static function tileEvents($events)
     {
         $p = 0;
-        $i = 1;
+        $i = 0;
         $events_display = [];
-        $events_display_first_group_item = array_shift($events);
-        $events_display_first_group_item['index'] = $i;
-        $events_display[] = $events_display_first_group_item;
-        while ($p < count($events) && $p < 2){
-            if(strtotime($events_display_first_group_item['send']) <= strtotime($events[$p]['sstart'])){
-                $event_item = array_slice($events, $p, 1);
-                $event_item['index'] = $p=i;
-                $events_display[] = $event_item;
-            } else {
-                $p++;
+
+        while(count($events) > 0) {
+            $i++;
+            $events_display_first_group_item = array_shift($events);
+            $events_display_first_group_item['index'] = $i;
+            $events_display[] = $events_display_first_group_item;
+
+            while ($p < count($events)) {
+
+                if (strtotime($events_display_first_group_item['send']) <= strtotime($events[$p]['sstart'])) {
+                    $events[$p]['index'] = $i;
+                    $event_item = $events[$p]['index'];
+                    $events_display[] = $event_item;
+                    $events_display_first_group_item = $event_item;
+                    $p++;
+                } else {
+                    $p++;
+                }
             }
-            print $p . "\t" . count($events) . "\n";
-        dd($events_display);
+            $not_found_events = [];
+            dd($events);
+            foreach ($events as $event) {
+                if (!array_key_exists('index', $event)) {
+                    $not_found_events[] = $event;
+                }
+            }
+            foreach($not_found_events as $ev){
+                print $ev['name'] . "\n";
+            }
+            exit;
+            $events = $not_found_events;
         }
-        dd($events_display);
+        return $events_display;
     }
 }

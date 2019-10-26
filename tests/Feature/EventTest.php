@@ -21,8 +21,8 @@ class EventTest extends TestCase
 
     public function testTileEvents()
     {
-        $event = new EventModel();
-        $events = $event->prepareData();
-        $result = $event->tileEvents($events);
+        $events = EventModel::prepareData();
+        $result = EventModel::tileEvents($events);
+        dd($result);
     }
 }
