@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Timeline v0.90</title>
+    <title>Timeline v0.91</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {'packages':['timeline']});
