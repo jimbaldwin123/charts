@@ -33,9 +33,9 @@ class TimelineController extends Controller
     public function show()
     {
         $events = EventModel::prepareData();
-        $result = EventModel::tileEvents($events);
+        $results = EventModel::tileEvents($events);
         $data = [
-            'events'=>$result,
+            'events'=>$results,
         ];
         return view('timeline',$data);
     }
@@ -44,9 +44,10 @@ class TimelineController extends Controller
     public function fillData()
     {
         $names = [
-            'Ludwig Wittgenstein',
-            'Charlie Parker',
-            'Dizzy Gillespie',
+            'Avicenna',
+//            'Ludwig Wittgenstein',
+//            'Charlie Parker',
+//            'Dizzy Gillespie',
 //
 //            'George Bernard Shaw',
 //            'Michel de Montaigne',
