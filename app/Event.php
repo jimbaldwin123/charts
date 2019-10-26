@@ -49,43 +49,43 @@ class Event extends Model
         return $parsed_event;
     }
 
+    /**
+     * iterate through events and tile non-overlapping events into
+     * the same row
+     * @param $events
+     * @return mixed
+     */
     public static function tileEvents($events)
     {
-        $p = 0;
         $i = 0;
-        $events_display = [];
-
-        while(count($events) > 0) {
+        while(self::arrayTagsComplete($events) !== true){
             $i++;
-            $events_display_first_group_item = array_shift($events);
-            $events_display_first_group_item['index'] = $i;
-            $events_display[] = $events_display_first_group_item;
-
-            while ($p < count($events)) {
-
-                if (strtotime($events_display_first_group_item['send']) <= strtotime($events[$p]['sstart'])) {
-                    $events[$p]['index'] = $i;
-                    $event_item = $events[$p]['index'];
-                    $events_display[] = $event_item;
-                    $events_display_first_group_item = $event_item;
-                    $p++;
-                } else {
-                    $p++;
+            $test_date = '0000-00-00';
+            foreach($events as $p=>$event){
+                if(!array_key_exists('index',$event)){
+                    if(strtotime($test_date) <= strtotime($event['sstart'])){
+                        $events[$p]['index'] = $i;
+                        $test_date = $event['send'];
+                    }
                 }
             }
-            $not_found_events = [];
-            dd($events);
-            foreach ($events as $event) {
-                if (!array_key_exists('index', $event)) {
-                    $not_found_events[] = $event;
-                }
-            }
-            foreach($not_found_events as $ev){
-                print $ev['name'] . "\n";
-            }
-            exit;
-            $events = $not_found_events;
         }
-        return $events_display;
+        return $events;
+    }
+
+    /**
+     * check array to see if all elements have been
+     * assigned to an index
+     * @param $events
+     * @return bool
+     */
+    public static function arrayTagsComplete($events){
+        $complete = true;
+        foreach($events as $event){
+            if(!array_key_exists('index',$event)){
+                $complete = false;
+            }
+        }
+        return $complete;
     }
 }

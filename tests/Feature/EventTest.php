@@ -22,7 +22,9 @@ class EventTest extends TestCase
     public function testTileEvents()
     {
         $events = EventModel::prepareData();
-        $result = EventModel::tileEvents($events);
-        dd($result);
+        $results = EventModel::tileEvents($events);
+        foreach($results as $result){
+            print $result['name'] . ' ' . ($result['index'] ?? 'none') . "\n";
+        }
     }
 }
