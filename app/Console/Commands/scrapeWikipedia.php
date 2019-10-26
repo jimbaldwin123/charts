@@ -12,7 +12,7 @@ class scrapeWikipedia extends Command
      *
      * @var string
      */
-    protected $signature = 'timeline:wikipedia';
+    protected $signature = 'timeline:wikipedia {name*}'; // email:send {user*}
 
     /**
      * The console command description.
@@ -38,7 +38,9 @@ class scrapeWikipedia extends Command
      */
     public function handle()
     {
+        $names = $this->argument('name');
+        print_r($names);
         $controller = new TimelineController;
-        $controller->fillData();
+        $controller->fillData($names);
     }
 }

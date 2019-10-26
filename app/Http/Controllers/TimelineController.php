@@ -10,6 +10,11 @@ use GuzzleHttp\Client;
 
 /**
  * TODO -
+ * short names on tile if it won't fit (eg 'Locke" without dates)
+ * cache tile results
+ * alert/log/report scrape results
+ * other data sources
+ * if scrape date invalid, set show=0 (and report)
  * IP restriction for github hook
  * non-overlapping dates on same row.
  * try-catch dd() for failed date parsing
@@ -41,31 +46,9 @@ class TimelineController extends Controller
     }
 
 
-    public function fillData()
+    public function fillData($names)
     {
-        $names = [
-            'Avicenna',
-//            'Ludwig Wittgenstein',
-//            'Charlie Parker',
-//            'Dizzy Gillespie',
-//
-//            'George Bernard Shaw',
-//            'Michel de Montaigne',
-//            'Bertrand Russell',
-//            'Marcel Duchamp',
-//            'John Cage',
-//            'James Brown',
-//            'Isaac Newton',
-//            'Friedrich Nietzsche',
-//            'Abraham Lincoln',
-//            'James Baldwin',
-//            'Albert Einstein',
-//            'Søren Kierkegaard',
-//            'Maimonides',
-//
-//            'John Locke',
-//            'David Hume',
-//            'Anton Lavoisier',
+
         /**
          * Mendelssohn, Moses
          * boethius
@@ -73,11 +56,8 @@ class TimelineController extends Controller
          * moses maimonides
          * avicenna
          * averroes
-         * magellan
-         * columbus
-         *
          */
-        ];
+
         foreach($names as $name){
             \Log::debug('NAME: ', [$name]);
             $data = $this->getWikipediaData($name);
