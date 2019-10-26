@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Http\Controllers\TimelineController;
 
 class scrapeWikipedia extends Command
 {
@@ -11,14 +12,14 @@ class scrapeWikipedia extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'timeline:wikipedia';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Scrape data from Wikipedia';
 
     /**
      * Create a new command instance.
@@ -37,6 +38,7 @@ class scrapeWikipedia extends Command
      */
     public function handle()
     {
-        //
+        $controller = new TimelineController;
+        $controller->fillData();
     }
 }
