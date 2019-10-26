@@ -12,7 +12,7 @@ class scrapeWikipedia extends Command
      *
      * @var string
      */
-    protected $signature = 'timeline:wikipedia {name*}'; // email:send {user*}
+    protected $signature = 'timeline:wikipedia {name* : Avicenna "Thomas Aquinas"}'; // email:send {user*}
 
     /**
      * The console command description.
