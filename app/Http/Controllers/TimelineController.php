@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 
 /**
  * TODO -
+ * sync database with dev (artisan command maybe?)
  * short names on tile if it won't fit (eg 'Locke" without dates)
  * cache tile results
  * alert/log/report scrape results
